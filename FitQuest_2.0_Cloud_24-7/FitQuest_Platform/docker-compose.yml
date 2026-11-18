@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fitquest
+      POSTGRES_USER: fitquest
+      POSTGRES_PASSWORD: fitquest_local_dev_password
+    volumes:
+      - fitquest_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fitquest -d fitquest"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      SESSION_SECRET: ${SESSION_SECRET:-local-dev-only-secret-change-before-hosting-please}
+      DATABASE_URL: postgresql://fitquest:fitquest_local_dev_password@db:5432/fitquest
+      DB_POOL_SIZE: 10
+    ports:
+      - "3000:3000"
+volumes:
+  fitquest_db:

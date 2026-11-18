@@ -1,0 +1,10 @@
+{
+  "name": "FitQuest",
+  "short_name": "FitQuest",
+  "lang": "ru",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "description": "Тренировки, квесты и прогресс в комфортном темпе."
+}

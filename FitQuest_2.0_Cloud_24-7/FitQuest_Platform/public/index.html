@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="FitQuest — тренировки, квесты и прогресс в комфортном темпе.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="data:,">
+  <title>FitQuest — твой фитнес-квест</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" id="logoSymbol" aria-hidden="true">🚀</div>
+        <div><h1>FitQuest</h1><p>Тренируйся. Выполняй квесты. Расти.</p></div>
+      </div>
+      <div class="top-meta"><span class="pill" id="localClock">🕒 Местное время</span><span class="pill secure-pill">🔒 Защищённый аккаунт</span></div>
+    </header>
+
+    <main>
+      <section id="authPage" class="auth-layout">
+        <section class="card auth-card">
+          <div class="eyebrow">Твой путь начинается здесь</div>
+          <h2 class="auth-title">Войди в игру.<br><span class="accent">Построй свою серию.</span></h2>
+          <p class="muted">Прогресс, покупки и рейтинг сохраняются в общей базе данных. Войди со своего устройства или создай профиль.</p>
+          <div class="auth-tabs"><button class="tab active" id="showRegister" type="button">Регистрация</button><button class="tab secondary" id="showLogin" type="button">Вход</button></div>
+          <form id="authForm" novalidate>
+            <div class="field"><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com"></div>
+            <div class="field" id="authNickField"><label for="authNick">Никнейм</label><input id="authNick" autocomplete="nickname" minlength="2" maxlength="32" required placeholder="Например, FitHero"></div>
+            <div class="field"><label for="authPassword">Пароль</label><input id="authPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Не менее 8 символов"></div>
+            <button class="primary full" id="authSubmit" type="submit">Создать профиль</button>
+            <p id="authStatus" class="status" role="status" aria-live="polite">Пароль хранится на сервере в виде стойкого хеша.</p>
+          </form>
+          <div class="notice">Не используй пароль от других сайтов. FitQuest никогда не показывает и не возвращает твой пароль.</div>
+        </section>
+        <aside class="auth-aside">
+          <div class="orb orb-one"></div><div class="orb orb-two"></div>
+          <div class="aside-icon">⚡</div><h2>Прогресс — это серия маленьких шагов</h2>
+          <p>GPS-прогулки, тренировки, личные программы, достижения и общий топ-10 игроков.</p>
+          <div class="feature-list"><span>✓ Один профиль на всех устройствах</span><span>✓ Коены и покупки в общей базе</span><span>✓ Настоящий рейтинг участников</span><span>✓ Твои цели и оформление</span></div>
+        </aside>
+      </section>
+
+      <section id="appShell" hidden>
+        <div class="welcome"><div><strong id="welcomeTitle">Привет!</strong><p id="welcomeText">Твой следующий уровень начинается сегодня.</p></div><div class="welcome-xp"><span>ТВОЙ XP</span><b id="welcomeXp">0</b></div></div>
+        <nav class="main-nav" aria-label="Основная навигация">
+          <button class="nav-btn active" data-page="home" type="button">🏠 Главная</button>
+          <button class="nav-btn" data-page="training" type="button">🏃 Тренировки</button>
+          <button class="nav-btn" data-page="quests" type="button">🧭 GPS-квесты</button>
+          <button class="nav-btn" data-page="shop" type="button">🛍️ Магазин</button>
+          <button class="nav-btn" data-page="profile" type="button">👤 Профиль</button>
+          <span class="nav-spacer"></span><button id="logoutBtn" class="secondary" type="button">Выйти</button>
+        </nav>
+
+        <section id="page-home" class="page">
+          <div class="hero-grid">
+            <article class="card hero-card">
+              <div class="eyebrow">Твой фитнес-квест</div><h2>Маленькие шаги.<br><span class="accent">Большая сила.</span></h2>
+              <p class="muted">Двигайся в комфортном темпе, открывай награды и возвращайся к занятиям постепенно. Отдых тоже часть прогресса.</p>
+              <div class="stats-grid">
+                <div class="stat"><span>Коены</span><b id="coins">0 🪙</b></div>
+                <div class="stat"><span>Уровень</span><b id="levelName">1 · Новичок</b></div>
+                <div class="stat"><span>Серия</span><b id="streak">0 🔥</b></div>
+              </div>
+            </article>
+            <article class="card level-card">
+              <div class="card-head"><div><div class="eyebrow">Следующий уровень</div><h3 id="levelTitle">Уровень 1 · Новичок</h3></div><span class="level-icon">🏆</span></div>
+              <div class="progress-meta"><span id="xpProgressText">0 / 100 XP</span><span id="xpPercent">0%</span></div><div class="progress-bar"><i id="xpbar"></i></div>
+              <p class="muted small">Опыт начисляется за завершение квестов, дни программы и записи тренировок.</p>
+              <div class="mini-stats"><div><b id="totalActivities">0</b><span>Активностей</span></div><div><b id="weekXp">0</b><span>XP за всё время</span></div><div><b id="freezeCount">0</b><span>Заморозок</span></div></div>
+            </article>
+          </div>
+          <div class="section-heading"><div><div class="eyebrow">Твой маршрут</div><h2>Сегодня в FitQuest</h2><p class="muted">Сводка твоей активности по местному времени.</p></div><span class="date-pill" id="todayLabel"></span></div>
+          <div class="dashboard-grid">
+            <article class="card"><div class="card-head"><div><h3>🏅 Достижения</h3><p class="muted small">Открывай их по мере занятий</p></div></div><div id="badges" class="badges"></div></article>
+            <article class="card"><div class="card-head"><div><h3>🧊 Серия</h3><p class="muted small">Заморозки можно купить за коены.</p></div><span class="large-icon">🔥</span></div><p id="streakMessage" class="muted">Регулярность важнее идеальной серии.</p><button class="secondary" type="button" data-go-page="shop">Открыть магазин</button></article>
+          </div>
+          <div class="section-heading"><div><div class="eyebrow">Сообщество</div><h2>🏆 Общий топ-10</h2><p class="muted">Одинаковый рейтинг для всех вошедших участников.</p></div><button id="refreshLeaderboard" class="secondary" type="button">Обновить</button></div>
+          <div class="card"><div id="leaderboard" class="leaderboard"><p class="muted">Загружаем рейтинг…</p></div><p class="muted tiny">В рейтинге отображаются только реальные аккаунты, без выдуманных участников.</p></div>
+          <div class="section-heading"><div><div class="eyebrow">Последняя активность</div><h2>📈 История тренировок</h2></div><button class="secondary" data-go-page="training" type="button">Добавить тренировку</button></div>
+          <div class="card"><div id="recentWorkouts" class="workout-list"><p class="muted">Пока нет тренировок. Добавь первую во вкладке «Тренировки».</p></div></div>
+        </section>
+
+        <section id="page-training" class="page" hidden>
+          <div class="section-heading top-heading"><div><div class="eyebrow">План и восстановление</div><h2>🏃 Тренировки и программы</h2><p class="muted">Выбирай занятие по самочувствию. Не требуется выполнять всё каждый день.</p></div></div>
+          <div class="training-layout">
+            <article class="card"><div class="eyebrow">Запись активности</div><h3>Добавить тренировку</h3><p class="muted small">Запись хранится на сервере. XP и коены начисляются по правилам приложения.</p>
+              <form id="workoutForm" class="form-grid">
+                <div class="field"><label for="activityType">Вид активности</label><select id="activityType"><option>Прогулка</option><option>Силовая тренировка</option><option>Растяжка</option><option>Йога</option><option>Велосипед</option><option>Плавание</option><option>Танцы</option><option>Другое</option></select></div>
+                <div class="field"><label for="durationMinutes">Время (минуты)</label><input id="durationMinutes" type="number" min="1" max="180" value="20" required></div>
+                <div class="field full-field"><label for="workoutNote">Заметка (необязательно)</label><textarea id="workoutNote" maxlength="300" placeholder="Как прошло занятие?"></textarea></div>
+                <button class="primary full-field" type="submit">Сохранить тренировку</button><p id="workoutStatus" class="status full-field" role="status"></p>
+              </form>
+            </article>
+            <article class="card"><div class="eyebrow">Твой цикл обучения</div><h3>Как устроен прогресс</h3><div class="cycle-steps"><div><span>1</span><section><b>Начни с доступного</b><p>Первые дни — знакомство и лёгкое движение.</p></section></div><div><span>2</span><section><b>Отмечай дни последовательно</b><p>Сервер сохраняет прогресс и ограничивает повторные награды.</p></section></div><div><span>3</span><section><b>Чередуй нагрузку и отдых</b><p>Программа не требует заниматься через боль или усталость.</p></section></div></div></article>
+          </div>
+          <div class="section-heading"><div><div class="eyebrow">Пошаговые курсы</div><h2>Твои программы</h2><p class="muted">Купленные курсы разблокируют соответствующую программу. Бесплатный старт доступен всем.</p></div></div>
+          <div id="programGrid" class="program-grid"><p class="muted">Загружаем программы…</p></div>
+          <div id="programDetail" class="card program-detail" hidden></div>
+        </section>
+
+        <section id="page-quests" class="page" hidden>
+          <div class="section-heading top-heading"><div><div class="eyebrow">Движение в реальном мире</div><h2>🧭 GPS-квесты</h2><p class="muted">Расстояние рассчитывает сервер по последовательным GPS-точкам. Требуются разрешение браузера и HTTPS или localhost.</p></div></div>
+          <div class="gps-grid">
+            <article class="card gps-card"><div class="gps-mark">📍</div><div class="eyebrow">GPS-трекер</div><h3>Начни прогулку</h3><p id="geoStatus" class="muted">Нажми «Разрешить геолокацию», а затем начни отслеживание.</p>
+              <div class="gps-metrics"><div><span>Расстояние</span><b id="geoDistance">0 м</b></div><div><span>Удаление от старта</span><b id="geoFarthest">0 м</b></div><div><span>Точность</span><b id="geoAccuracy">—</b></div></div>
+              <div class="button-row"><button id="enableGeoBtn" type="button" class="secondary">Разрешить GPS</button><button id="startWalkBtn" type="button" class="primary">Начать прогулку</button><button id="stopWalkBtn" type="button" class="danger-btn" disabled>Остановить</button></div>
+              <p class="muted tiny">Для защиты приватности сервер хранит только стартовую и последнюю точку во время отслеживания, не полную историю маршрута. При остановке координаты очищаются.</p>
+            </article>
+            <article class="card"><div class="eyebrow">Таймер занятий</div><h3>⏱️ Интервальный таймер</h3><p class="muted small">Используй его для удобного интервала разминки или отдыха.</p><div class="timer-display" id="timerDisplay">05:00</div><div class="field timer-select"><label for="timerMinutes">Длительность</label><select id="timerMinutes"><option value="1">1 минута</option><option value="3">3 минуты</option><option value="5" selected>5 минут</option><option value="10">10 минут</option><option value="15">15 минут</option><option value="20">20 минут</option><option value="30">30 минут</option></select></div><div class="button-row"><button id="startTimerBtn" type="button" class="primary">Старт</button><button id="stopTimerBtn" type="button" class="secondary" disabled>Сбросить</button></div><p id="timerStatus" class="status" role="status"></p></article>
+          </div>
+          <div class="section-heading"><div><div class="eyebrow">Задания на сегодня</div><h2>GPS-квесты</h2><p class="muted">Прогресс обновляется по точкам, которые принимает сервер.</p></div><span id="dailyQuestCount" class="date-pill">0 / 3</span></div>
+          <div id="questList" class="quest-list"></div>
+        </section>
+
+        <section id="page-shop" class="page" hidden>
+          <div class="shop-hero card"><div><div class="eyebrow">FitQuest rewards</div><h2>Магазин наград</h2><p class="muted">Темы, аватары, курсы, планы и усилители серии. Товары и баланс проверяет сервер.</p></div><div class="balance-box"><span>Твой баланс</span><b id="shopCoins">0 🪙</b></div></div>
+          <div id="shopFilters" class="shop-filters"><button class="filter-btn active" data-filter="all" type="button">Всё</button><button class="filter-btn" data-filter="theme" type="button">Оформление</button><button class="filter-btn" data-filter="course" type="button">Курсы</button><button class="filter-btn" data-filter="marathon" type="button">Марафоны</button><button class="filter-btn" data-filter="mealplan" type="button">Меню</button><button class="filter-btn" data-filter="streakFreeze" type="button">Серия</button><button class="filter-btn" data-filter="voice" type="button">Озвучка</button></div>
+          <div id="shopStatus" class="shop-status"></div><div id="shopItems" class="shop-grid"></div>
+          <div class="section-heading"><div><div class="eyebrow">Твои покупки</div><h2>🎒 Коллекция</h2></div></div><div id="inventorySummary" class="card inventory-list"></div>
+        </section>
+
+        <section id="page-profile" class="page" hidden>
+          <div class="section-heading top-heading"><div><div class="eyebrow">Личные настройки</div><h2>👤 Профиль</h2><p class="muted">Профиль и настройки сохраняются в общей базе, а не только в этом браузере.</p></div></div>
+          <div class="profile-grid">
+            <article class="card"><h3>Настроить профиль</h3><form id="profileForm" class="form-grid">
+              <div class="field"><label for="profileNick">Никнейм</label><input id="profileNick" maxlength="32" minlength="2" required></div><div class="field"><label for="profileEmail">Email</label><input id="profileEmail" type="email" readonly></div>
+              <div class="field full-field"><label for="profileBio">О себе</label><textarea id="profileBio" maxlength="160" placeholder="Что мотивирует тебя двигаться?"></textarea></div>
+              <div class="field"><label for="profileGoal">Цель</label><select id="profileGoal"><option value="general">Регулярное движение</option><option value="endurance">Выносливость</option><option value="strength">Сила и техника</option><option value="mobility">Гибкость и подвижность</option></select></div>
+              <div class="field"><label for="profileActivity">Активность</label><select id="profileActivity"><option value="low">Низкая</option><option value="moderate">Умеренная</option><option value="high">Высокая</option></select></div>
+              <div class="field"><label for="profileHeight">Рост (см, необязательно)</label><input id="profileHeight" type="number" min="50" max="250"></div><div class="field"><label for="profileWeight">Вес (кг, необязательно)</label><input id="profileWeight" type="number" min="10" max="350" step="0.1"></div>
+              <div class="field"><label for="reminderTime">Время напоминания</label><input id="reminderTime" type="time" value="19:00"></div><div class="field"><label for="timezoneDisplay">Часовой пояс</label><input id="timezoneDisplay" readonly></div>
+              <div class="check-field full-field"><label><input id="dailyReminder" type="checkbox" checked> Ежедневное напоминание (когда приложение открыто)</label><label><input id="missedReminder" type="checkbox" checked> Напоминать о пропущенных квестах (когда приложение открыто)</label></div>
+              <button class="primary full-field" type="submit">Сохранить профиль</button><p id="profileStatus" class="status full-field" role="status"></p>
+            </form></article>
+            <article class="card"><h3>🖼️ Обои приложения</h3><p class="muted small">Готовые обои сохраняются в аккаунте как выбранная тема. Загруженная личная картинка хранится только в этом браузере.</p>
+              <div class="wallpaper-grid" id="wallpaperGallery"><button type="button" class="wallpaper-choice active" data-wallpaper="default"><span class="swatch swatch-default"></span><span>Тёмный FitQuest</span></button><button type="button" class="wallpaper-choice" data-wallpaper="aurora"><span class="swatch swatch-aurora"></span><span>Северное сияние</span></button><button type="button" class="wallpaper-choice" data-wallpaper="space"><span class="swatch swatch-space"></span><span>Космос</span></button><button type="button" class="wallpaper-choice" data-wallpaper="sunset"><span class="swatch swatch-sunset"></span><span>Закат</span></button></div>
+              <div class="upload-row"><label class="upload-btn" for="wallpaperUpload">📁 Загрузить свою картинку<input id="wallpaperUpload" type="file" accept="image/png,image/jpeg,image/webp"></label><button id="useCustomWallpaper" class="secondary" type="button" hidden>Применить свои обои</button></div><p id="wallpaperStatus" class="status" role="status"></p>
+              <div class="separator"></div><h3>🔔 Уведомления</h3><p class="muted small">Браузерные уведомления приходят, пока FitQuest открыт. Email- и push-уведомления требуют отдельного сервиса и пока не подключены.</p><button id="enableNotifications" class="secondary" type="button">Разрешить уведомления браузера</button><p id="notificationStatus" class="status" role="status"></p>
+              <div class="separator danger-separator"></div><h3 class="danger-text">Удаление аккаунта</h3><p class="muted small">Удаляет аккаунт на сервере, профиль, коены, покупки, программы и журнал активности со всех устройств. Действие нельзя отменить.</p><button id="openDeleteModal" class="danger-btn" type="button">🗑️ Удалить аккаунт и прогресс</button>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+    <footer class="footer">FitQuest · движение в своём ритме · <span id="footerServerStatus">Соединение проверяется…</span></footer>
+  </div>
+
+  <div id="contentModal" class="modal-backdrop" hidden><section class="modal card" role="dialog" aria-modal="true" aria-labelledby="contentTitle"><button class="modal-close secondary" id="closeContentModal" type="button" aria-label="Закрыть">×</button><div id="contentIcon" class="content-icon">📘</div><h2 id="contentTitle">Контент</h2><div id="contentBody" class="content-body"></div><div class="modal-actions"><button class="secondary" id="contentGoTraining" type="button" hidden>Открыть программу</button><button class="primary" id="closeContentModalBottom" type="button">Готово</button></div></section></div>
+
+  <div id="deleteModal" class="modal-backdrop" hidden><section class="modal card delete-modal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle"><div class="delete-icon">!</div><h2 id="deleteTitle">Удалить аккаунт?</h2><p class="muted">Все серверные данные аккаунта будут удалены. Чтобы подтвердить действие, введи текущий пароль.</p><form id="deleteForm"><div class="field"><label for="deletePassword">Текущий пароль</label><input id="deletePassword" type="password" autocomplete="current-password" required minlength="8"></div><p id="deleteStatus" class="status" role="status"></p><div class="modal-actions"><button class="secondary" id="cancelDelete" type="button">Нет, оставить</button><button class="danger-btn" id="confirmDelete" type="submit">Да, удалить аккаунт</button></div></form></section></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
